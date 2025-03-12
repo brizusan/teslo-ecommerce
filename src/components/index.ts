@@ -15,6 +15,7 @@ export * from "./products/product-grid/ProductGridEmpty";
 
 // Componente de Product
 export * from "./product/product-quantity/ProductQuantity";
+export * from "./product/product-stock/ProductStock";
 export * from "./product/size-selector/SizeSelector";
 export * from "./product/slider/SliderProduct";
 export * from "./product/slider/SliderProductMobile";
@@ -24,6 +25,7 @@ export * from "./ui/icons";
 export * from "./ui/link/ButtonLink";
 export * from "./ui/link/CartLink";
 export * from "./ui/not-found/PageNotFound";
+export * from "./ui/pagination/Pagination";
 export * from "./ui/title/Title";
 export * from "./ui/top-menu/ButtonMenu";
 export * from "./ui/top-menu/TopMenu";

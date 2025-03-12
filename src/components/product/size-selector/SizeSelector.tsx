@@ -17,9 +17,12 @@ export const SizeSelector = ({ sizeSelected, avaliableSizes }: Props) => {
         {avaliableSizes.map((size) => (
           <button
             key={size}
-            className={clsx("mx-2 hover:underline text-lg cursor-pointer", {
-              "font-semibold underline": selected === size,
-            })}
+            className={clsx(
+              "mx-2 hover:underline text-lg cursor-pointer text-slate-500 font-medium",
+              {
+                "text-slate-900 underline": selected === size,
+              }
+            )}
             onClick={() => setSelected(size)}
           >
             {size}

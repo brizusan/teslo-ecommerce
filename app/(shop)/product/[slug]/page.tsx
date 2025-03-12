@@ -1,23 +1,68 @@
+export const revalidate = 6048000; // 7dias
 import {
   ProductQuantity,
+  ProductStock,
   SizeSelector,
   SliderProduct,
   SliderProductMobile,
 } from "@/src/components";
+import { prisma } from "@/src/config/client";
 import { titleFont } from "@/src/config/fonts";
-import { initialData } from "@/src/seed/seed";
 import { formatCurrency } from "@/src/utils";
+import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const product = await getProdyctBySlug(slug);
+
+  return {
+    title: {
+      template: `%s ${product.title}  `,
+      default: `${product.title} `,
+    },
+    description: `${product.description} ?? 'breve descripcion'`,
+    openGraph: {
+      title: `Producto - ${product.title} ?? 'producto'`,
+      description: `${product.description} ?? 'breve descripcion'`,
+      images: [`/products/${product.images[1]}`],
+    },
+  };
+}
+
+async function getProdyctBySlug(slug: string) {
+  const product = await prisma.product.findUnique({
+    include: {
+      ProductImage: {
+        select: {
+          url: true,
+        },
+      },
+    },
+    where: {
+      slug,
+    },
+  });
+
+  if (!product) notFound();
+
+  return {
+    ...product,
+    images: product?.ProductImage.map((item) => item.url),
+  };
+}
+
 export default async function ProductBySlug({ params }: Props) {
   const { slug } = await params;
-  const products = initialData.products;
-  const product = products.find((item) => item.slug === slug);
-  if (!product) return notFound();
+  const product = await getProdyctBySlug(slug);
 
   return (
     <>
@@ -36,6 +81,7 @@ export default async function ProductBySlug({ params }: Props) {
         </div>
         {/* Product Info */}
         <div className="col-span-1 px-4  space-y-3">
+          <ProductStock slug={slug} />
           <h1
             className={`${titleFont.className} antialiased font-bold text-xl`}
           >

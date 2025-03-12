@@ -2,7 +2,7 @@ import { Title } from "@/src/components";
 import Link from "next/link";
 import { IoCardOutline } from "react-icons/io5";
 
-export default function () {
+export default function OrderDetailPage() {
   return (
     <section className="px-10">
       <Title title="Orders" subtitle="Administra tus ordenes , estados , etc" />

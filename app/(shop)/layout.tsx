@@ -2,7 +2,6 @@ import { Footer, SideBar, TopMenu } from "@/src/components";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Shop - Teslo Shop",
   description: "Tienda , accesorios y más",
 };
 
