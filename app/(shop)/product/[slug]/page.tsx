@@ -1,8 +1,6 @@
 export const revalidate = 6048000; // 7dias
 import {
-  ProductQuantity,
   ProductStock,
-  SizeSelector,
   SliderProduct,
   SliderProductMobile,
 } from "@/src/components";
@@ -11,6 +9,7 @@ import { titleFont } from "@/src/config/fonts";
 import { formatCurrency } from "@/src/utils";
 import { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
+import { AddToCart } from "../components/AddToCart";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -33,7 +32,6 @@ export async function generateMetadata(
     openGraph: {
       title: `Producto - ${product.title} ?? 'producto'`,
       description: `${product.description} ?? 'breve descripcion'`,
-      images: [`/products/${product.images[1]}`],
     },
   };
 }
@@ -89,15 +87,8 @@ export default async function ProductBySlug({ params }: Props) {
           </h1>
           <p className="text-lg">{formatCurrency(product.price)}</p>
 
-          {/* Selector de Tallas */}
-          <h3 className="font-semibold text-lg">Tallas disponibles</h3>
-          <SizeSelector avaliableSizes={product.sizes} />
-          {/* Selector de Cantidad */}
-          <ProductQuantity />
           {/* CTA - Agregar al carrito */}
-          <button type="button" className="btn-primary my-4">
-            Agregar al carrito
-          </button>
+          <AddToCart product={product} />
           {/* Descripcion */}
           <div className="space-y-2">
             <h3 className="font-semibold text-lg">Descripcion</h3>

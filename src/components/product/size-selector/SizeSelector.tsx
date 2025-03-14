@@ -1,16 +1,19 @@
 "use client";
 import { Size } from "@/src/interfaces";
 import clsx from "clsx";
-import { useState } from "react";
 
 type Props = {
   sizeSelected?: Size;
   avaliableSizes: Size[];
+
+  onChangeSize: (size: Size) => void;
 };
 
-export const SizeSelector = ({ sizeSelected, avaliableSizes }: Props) => {
-  const [selected, setSelected] = useState(sizeSelected);
-
+export const SizeSelector = ({
+  sizeSelected,
+  avaliableSizes,
+  onChangeSize,
+}: Props) => {
   return (
     <>
       <div className="flex">
@@ -20,10 +23,10 @@ export const SizeSelector = ({ sizeSelected, avaliableSizes }: Props) => {
             className={clsx(
               "mx-2 hover:underline text-lg cursor-pointer text-slate-500 font-medium",
               {
-                "text-slate-900 underline": selected === size,
+                "text-slate-900 underline": sizeSelected === size,
               }
             )}
-            onClick={() => setSelected(size)}
+            onClick={() => onChangeSize(size)}
           >
             {size}
           </button>
