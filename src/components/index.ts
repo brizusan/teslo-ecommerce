@@ -20,6 +20,9 @@ export * from "./product/size-selector/SizeSelector";
 export * from "./product/slider/SliderProduct";
 export * from "./product/slider/SliderProductMobile";
 
+// Componente de Provider
+export * from "./providers/Provider";
+
 // Components UI
 export * from "./ui/icons";
 export * from "./ui/link/ButtonLink";

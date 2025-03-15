@@ -1,10 +1,12 @@
 "use client";
 import { useUIStore } from "@/src/store";
 import clsx from "clsx";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import {
   IoCloseOutline,
   IoLogInOutline,
-  IoLogOutOutline,
   IoPeopleOutline,
   IoPersonOutline,
   IoSearch,
@@ -12,10 +14,25 @@ import {
   IoTicketOutline,
 } from "react-icons/io5";
 import { SideBarLink } from "./SideBarLink";
+import { SideLogout } from "./SideLogout";
 
 export const SideBar = () => {
+  const router = useRouter();
   const closeMenu = useUIStore((state) => state.closeSideMenu);
   const menuOpen = useUIStore((state) => state.isMenuOpen);
+
+  const { data: session, update } = useSession();
+  const isAuthenticated = !!session?.user;
+  const isAdmin = session?.user?.role === "admin";
+
+  useEffect(() => {
+    update();
+  }, []);
+
+  const handleLogout = () => {
+    window.location.reload();
+    closeMenu();
+  };
 
   return (
     <>
@@ -63,45 +80,52 @@ export const SideBar = () => {
         </div>
         {/* Categorias */}
         <div className="my-8">
-          <SideBarLink
-            href="/"
-            icon={<IoPersonOutline size={22} />}
-            name="Perfil"
-          />
-          <SideBarLink
-            href="/"
-            icon={<IoTicketOutline size={22} />}
-            name="Ordenes"
-          />{" "}
-          <SideBarLink
-            href="/"
-            icon={<IoLogInOutline size={22} />}
-            name="Ingresar"
-          />{" "}
-          <SideBarLink
-            href="/"
-            icon={<IoLogOutOutline size={22} />}
-            name="Salir"
-          />
+          {isAuthenticated ? (
+            <>
+              <SideBarLink
+                href="/profile"
+                icon={<IoPersonOutline size={22} />}
+                name="Perfil"
+                onCloseMenu={closeMenu}
+              />
+              <SideBarLink
+                href="/"
+                icon={<IoTicketOutline size={22} />}
+                name="Ordenes"
+              />
+              <SideLogout onCloseMenu={handleLogout} />
+            </>
+          ) : (
+            <SideBarLink
+              href="/auth/login"
+              icon={<IoLogInOutline size={22} />}
+              name="Ingresar"
+              onCloseMenu={closeMenu}
+            />
+          )}
         </div>
-        <div className="my-10 bg-gray-200 h-[1px] " />
-        <div>
-          <SideBarLink
-            href="/"
-            icon={<IoShirtOutline size={22} />}
-            name="Productos"
-          />{" "}
-          <SideBarLink
-            href="/"
-            icon={<IoTicketOutline size={22} />}
-            name="Ordenes"
-          />{" "}
-          <SideBarLink
-            href="/"
-            icon={<IoPeopleOutline size={22} />}
-            name="Usuarios"
-          />
-        </div>
+        {isAuthenticated && isAdmin && (
+          <>
+            <div className="my-10 bg-gray-200 h-[1px] " />
+            <div>
+              <SideBarLink
+                href="/"
+                icon={<IoShirtOutline size={22} />}
+                name="Productos"
+              />{" "}
+              <SideBarLink
+                href="/"
+                icon={<IoTicketOutline size={22} />}
+                name="Ordenes"
+              />{" "}
+              <SideBarLink
+                href="/"
+                icon={<IoPeopleOutline size={22} />}
+                name="Usuarios"
+              />
+            </div>
+          </>
+        )}
       </nav>
     </>
   );

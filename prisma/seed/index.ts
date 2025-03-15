@@ -4,13 +4,14 @@ import { initialData } from "@/src/seed/seed";
 async function main() {
   // resetar base de datos
   // await Promise.all([
+  await prisma.user.deleteMany();
   await prisma.productImage.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
   // ]);
   // creacion de categorias
 
-  const { categories, products } = initialData;
+  const { categories, products, users } = initialData;
 
   const categoriesData = categories.map((category) => ({
     name: category,
@@ -49,6 +50,12 @@ async function main() {
     await prisma.productImage.createMany({
       data: imagesData,
     });
+  });
+
+  // creacion de usuarios
+
+  await prisma.user.createMany({
+    data: users,
   });
 
   console.log("Seed ejecutado");

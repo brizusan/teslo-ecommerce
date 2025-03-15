@@ -16,6 +16,13 @@ export const CartLink = () => {
     setLoading(true);
   }, []);
 
+  if (loading === false)
+    return (
+      <>
+        <span>loading...</span>
+      </>
+    );
+
   return (
     <Link
       href={"/cart"}
@@ -32,7 +39,7 @@ export const CartLink = () => {
           className={clsx(
             "absolute top-[-9px] right-[-9px] bg-blue-600 text-white  rounded-full w-5 h-5 flex justify-center items-center text-sm",
             {
-              "bg-red-400  ": pathname === "/cart",
+              "bg-red-400": pathname === "/cart",
               "bg-transparent": totalItems === 0,
             }
           )}
