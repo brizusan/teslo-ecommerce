@@ -1,14 +1,34 @@
-import bcryptjs from "bcryptjs";
-import NextAuth from "next-auth";
-import Credentials from "next-auth/providers/credentials";
-import { z } from "zod";
-import { prisma } from "./config/client";
+import type { NextAuthConfig } from "next-auth";
 
-export const { handlers, signOut, signIn, auth } = NextAuth({
+const protectedRoutes = [
+  "/checkout/address",
+  // "/category/women",
+  // "/category/kid",
+  // "/category/men",
+];
+
+export const authConfig = {
   pages: {
     signIn: "/auth/login",
+    newUser: "/auth/new-account",
   },
   callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
+      const isLoggedIn = !!auth?.user;
+      const isOnProtectedRoute = protectedRoutes.some((route) =>
+        nextUrl.pathname.startsWith(route)
+      );
+      console.log(isOnProtectedRoute);
+      if (isOnProtectedRoute) {
+        if (isLoggedIn) return true;
+        console.log("redirecting to login");
+        return false;
+      }
+      if (isLoggedIn && nextUrl.pathname.startsWith("/auth/login")) {
+        return Response.redirect(new URL("/", nextUrl));
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       if (user) {
         token.data = user;
@@ -20,39 +40,5 @@ export const { handlers, signOut, signIn, auth } = NextAuth({
       return session;
     },
   },
-  providers: [
-    Credentials({
-      credentials: {
-        email: {},
-        password: {},
-      },
-      authorize: async (credentials) => {
-        const parsedCredentials = z
-          .object({
-            email: z.string().email(),
-            password: z.string().min(6),
-          })
-          .safeParse(credentials);
-
-        if (!parsedCredentials.success) {
-          return null;
-        }
-        const { email, password } = parsedCredentials.data;
-
-        const user = await prisma.user.findUnique({
-          where: {
-            email,
-          },
-        });
-
-        if (!user) return null;
-
-        if (!bcryptjs.compareSync(password, user.password)) return null;
-
-        const { password: contraseña, ...rest } = user;
-
-        return rest;
-      },
-    }),
-  ],
-});
+  providers: [],
+} satisfies NextAuthConfig;

@@ -2,7 +2,6 @@
 import { useUIStore } from "@/src/store";
 import clsx from "clsx";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import {
   IoCloseOutline,
@@ -17,7 +16,6 @@ import { SideBarLink } from "./SideBarLink";
 import { SideLogout } from "./SideLogout";
 
 export const SideBar = () => {
-  const router = useRouter();
   const closeMenu = useUIStore((state) => state.closeSideMenu);
   const menuOpen = useUIStore((state) => state.isMenuOpen);
 
@@ -28,11 +26,6 @@ export const SideBar = () => {
   useEffect(() => {
     update();
   }, []);
-
-  const handleLogout = () => {
-    window.location.reload();
-    closeMenu();
-  };
 
   return (
     <>
@@ -93,7 +86,7 @@ export const SideBar = () => {
                 icon={<IoTicketOutline size={22} />}
                 name="Ordenes"
               />
-              <SideLogout onCloseMenu={handleLogout} />
+              <SideLogout />
             </>
           ) : (
             <SideBarLink

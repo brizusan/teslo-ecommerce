@@ -1,7 +1,8 @@
 "use server";
 
-import { signIn } from "@/src/auth.config";
+import { signIn } from "@/src/auth";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 
 export async function authenticate(
   prevState: string | undefined,
@@ -14,6 +15,8 @@ export async function authenticate(
       email: formData.get("email") as string,
       password: formData.get("password") as string,
     });
+
+    redirect("/");
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

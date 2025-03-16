@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function CheckoutPage() {
   return (
-    <section className="px-10 max-w-[960px] mx-auto ">
+    <section className=" max-w-[1024px] mx-auto w-full px-10 ">
       <Title title="Verificar compra" subtitle="Confirma tu compra" />
       <Link
         href="/cart"
