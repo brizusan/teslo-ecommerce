@@ -12,7 +12,6 @@ export default async function CheckoutLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-
-  if (!session?.user) redirect("/");
+  if (!session?.user) redirect("/auth/login");
   return <main className="flex flex-col  min-h-screen">{children}</main>;
 }

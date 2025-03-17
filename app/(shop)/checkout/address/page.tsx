@@ -1,90 +1,31 @@
+import { getUserAddress } from "@/src/actions";
+import { auth } from "@/src/auth";
 import { Title } from "@/src/components";
-import Link from "next/link";
+import { prisma } from "@/src/config/client";
+import { redirect } from "next/navigation";
+import { AddressForm } from "./components/AddressForm";
 
-export default function AddressPage() {
+async function getCountries() {
+  return await prisma.country.findMany();
+}
+
+export default async function AddressPage() {
+  const countries = await getCountries();
+
+  const session = await auth();
+
+  if (!session?.user) return redirect("/auth/login");
+
+  const userAddress = await getUserAddress(session.user.id);
+
+  if (!userAddress) return <p>...No hay direcciones guardadas</p>;
+
   return (
     <div className="flex flex-col sm:justify-center sm:items-center mb-72 px-10 lg:px-0">
       <div className="w-full  xl:w-[1000px] flex flex-col justify-center text-left">
         <Title title="Dirección" subtitle="Dirección de entrega" />
 
-        <div className="grid grid-cols-1 gap-2 sm:gap-5 sm:grid-cols-2">
-          <div className="flex flex-col mb-2">
-            <span>Nombres</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Apellidos</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Dirección</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Dirección 2 (opcional)</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Código postal</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Ciudad</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>País</span>
-            <select className="p-2 border border-gray-200 rounded-md bg-gray-100">
-              <option value="">[ Seleccione ]</option>
-              <option value="ARG">Argentina</option>
-              <option value="BRA">Brazil</option>
-              <option value="COL">Colombia</option>
-              <option value="MEX">Mexico</option>
-              <option value="PER">Perú</option>
-            </select>
-          </div>
-
-          <div className="flex flex-col mb-2">
-            <span>Teléfono</span>
-            <input
-              type="text"
-              className="p-2 border border-gray-200 rounded-md bg-gray-100"
-            />
-          </div>
-
-          <div className="flex flex-col mb-2 sm:mt-10">
-            <Link
-              href="/checkout"
-              className="btn-primary flex w-full sm:w-1/2 justify-center "
-            >
-              Siguiente
-            </Link>
-          </div>
-        </div>
+        <AddressForm countries={countries} userAddress={userAddress} />
       </div>
     </div>
   );

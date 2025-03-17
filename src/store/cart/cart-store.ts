@@ -28,7 +28,6 @@ export const useCartStore = create<StateStore>()(
         },
         addProductToCart: (product) => {
           const { cart } = get();
-          console.log(cart);
           // validacion si el producto se agrego al carrito
           const isProductInCart = cart.some((item) => item.id === product.id);
 

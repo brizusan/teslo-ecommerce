@@ -18,10 +18,8 @@ export const authConfig = {
       const isOnProtectedRoute = protectedRoutes.some((route) =>
         nextUrl.pathname.startsWith(route)
       );
-      console.log(isOnProtectedRoute);
       if (isOnProtectedRoute) {
         if (isLoggedIn) return true;
-        console.log("redirecting to login");
         return false;
       }
       if (isLoggedIn && nextUrl.pathname.startsWith("/auth/login")) {

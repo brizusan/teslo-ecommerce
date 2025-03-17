@@ -10,7 +10,6 @@ type Props = {
 
 export const ProductQuantity = ({ quantity, onUpdateQuantity }: Props) => {
   const pathname = usePathname();
-  console.log(pathname);
   const isProductCart = pathname === "/cart";
   return (
     <>

@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+
 interface SeedProduct {
   description: string;
   images: string[];
