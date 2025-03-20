@@ -22,7 +22,7 @@ export const CartItem = ({ product }: Props) => {
         className="object-cover"
       />
       <div className="flex-1 space-y-1.5  py-3">
-        <h3 className="font-bold antialiased">Producto</h3>
+        <h3 className="font-bold antialiased">{product.title}</h3>
         <p className="font-medium text-slate-700">
           {formatCurrency(product.price)}
         </p>

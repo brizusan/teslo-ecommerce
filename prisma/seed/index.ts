@@ -5,6 +5,9 @@ import { initialData } from "@/src/seed/seed";
 async function main() {
   // resetar base de datos
   // await Promise.all([
+  await prisma.orderAddress.deleteMany();
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
   await prisma.userAdress.deleteMany();
   await prisma.user.deleteMany();
   await prisma.country.deleteMany();

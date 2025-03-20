@@ -82,9 +82,10 @@ export const SideBar = () => {
                 onCloseMenu={closeMenu}
               />
               <SideBarLink
-                href="/"
+                href="/orders"
                 icon={<IoTicketOutline size={22} />}
                 name="Ordenes"
+                onCloseMenu={closeMenu}
               />
               <SideLogout />
             </>

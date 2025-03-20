@@ -9,8 +9,8 @@
 3. Personaliza el archivo env.template
 4. Levantar base de datos : `docker-compose up - d`
    .generar la base de datos
-
-5. Correr en desarrollo : `pnpm run dev`
+5. Limpiar los datos de localStorage
+6. Correr en desarrollo : `pnpm run dev`
 
 ## Generar base de datos
 

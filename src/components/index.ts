@@ -2,7 +2,8 @@
 export * from "./cart/cart-item/CartItem";
 export * from "./cart/cart-summary/CartSummary";
 
-// Componente de Cart
+// Componente de Checkout
+export * from "./checkout/checkout-grid/CheckoutGrid";
 export * from "./checkout/checkout-item/CheckoutItem";
 export * from "./checkout/checkout-summary/CheckoutSummary";
 

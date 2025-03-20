@@ -15,6 +15,7 @@ type StateStore = {
     envio: number;
     total: number;
   };
+  cleanCart: () => void;
 };
 
 export const useCartStore = create<StateStore>()(
@@ -74,6 +75,7 @@ export const useCartStore = create<StateStore>()(
 
           return { subTotal, quantityProducts, igv, envio, total };
         },
+        cleanCart: () => set({ cart: [] }),
       }),
       {
         name: "shopping-cart",
