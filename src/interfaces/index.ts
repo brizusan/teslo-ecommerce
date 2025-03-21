@@ -1,2 +1,3 @@
-export * from "./order";
+export * from "./order.interface";
+export * from "./paypal.interface";
 export * from "./product.interface";

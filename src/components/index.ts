@@ -14,6 +14,9 @@ export * from "./ui/side-menu/SideBarLink";
 export * from "./products/product-grid/ProductGrid";
 export * from "./products/product-grid/ProductGridEmpty";
 
+// Componente de Paypal
+export * from "./paypal/PaypalButton";
+
 // Componente de Product
 export * from "./product/product-quantity/ProductQuantity";
 export * from "./product/product-stock/ProductStock";
@@ -22,7 +25,7 @@ export * from "./product/slider/SliderProduct";
 export * from "./product/slider/SliderProductMobile";
 
 // Componente de Provider
-export * from "./providers/Provider";
+export * from "./providers/Providers";
 
 // Components UI
 export * from "./ui/icons";

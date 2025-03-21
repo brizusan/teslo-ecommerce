@@ -1,4 +1,4 @@
-import { CheckoutItem, Title } from "@/src/components";
+import { CheckoutItem, PaypalButton, Title } from "@/src/components";
 import { prisma } from "@/src/config/client";
 import { formatCurrency } from "@/src/utils";
 import clsx from "clsx";
@@ -56,10 +56,10 @@ export default async function OrderDetailsPage({ params }: Props) {
 
       <div
         className={clsx(
-          "flex gap-4 items-center w-1/2 rounded-lg text-xs py-1 pl-8",
+          "flex gap-4 items-center w-1/2 rounded-lg text-xs font-semibold py-1 pl-8",
           {
-            "bg-green-100 text-green-800": order.isPaid,
-            "bg-red-100 text-red-800": !order.isPaid,
+            "bg-green-200 text-green-800": order.isPaid,
+            "bg-red-200 text-red-800": !order.isPaid,
           }
         )}
       >
@@ -126,18 +126,9 @@ export default async function OrderDetailsPage({ params }: Props) {
                     </p>
                   </div>
                 </div>
-                <div
-                  className={clsx(
-                    "flex gap-4 items-center mt-4  rounded-lg text-xs py-1 pl-8",
-                    {
-                      "bg-green-100 text-green-800": order.isPaid,
-                      "bg-red-100 text-red-800": !order.isPaid,
-                    }
-                  )}
-                >
-                  <IoCardOutline size={30} />
-                  <p>Orden - {order.isPaid ? "Pagada" : "Pendiente"}</p>
-                </div>
+                {!order.isPaid && (
+                  <PaypalButton amount={order.total} orderId={order.id} />
+                )}
               </div>
             </div>
           </article>

@@ -123,6 +123,9 @@ model Order {
   userId       String
   OrderItem    OrderItem[]
   OrderAddress OrderAddress?
+
+  // idPaypal
+  transactionId String?
 }
 
 model OrderItem {
