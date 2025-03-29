@@ -1,5 +1,6 @@
 "use client";
 import { paypalCheckPayment, setTransactionId } from "@/src/actions";
+import { useCartStore } from "@/src/store";
 import {
   CreateOrderActions,
   CreateOrderData,
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export const PaypalButton = ({ orderId, amount }: Props) => {
+  const cleanCart = useCartStore((state) => state.cleanCart);
   const [{ isPending }] = usePayPalScriptReducer();
 
   const roundedAmmount = Math.round(amount * 100) / 100;
@@ -56,7 +58,9 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
   const onApprove = async (data: OnApproveData, actions: OnApproveActions) => {
     const details = await actions.order?.capture();
     if (!details) return;
+
     await paypalCheckPayment(details.id!);
+    cleanCart();
   };
 
   return (

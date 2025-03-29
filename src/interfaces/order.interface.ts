@@ -25,7 +25,10 @@ export interface OrderItem {
   quantity: number;
   price: number;
   size: string;
-  orderId: string;
-  productId: string;
-  product: ProductOrder;
+  image?: string;
+  slug?: string;
+  title?: string;
+  orderId?: string;
+  productId?: string;
+  product?: ProductOrder;
 }

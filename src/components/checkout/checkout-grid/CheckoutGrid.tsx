@@ -18,7 +18,7 @@ export const CheckoutGrid = ({ cart }: Props) => {
   return (
     <div className="col-span-2 grid grid-cols-1 gap-2 self-start">
       {cart.map((item) => (
-        <CheckoutItem key={item.id} product={item} />
+        <CheckoutItem key={item.id} productOrder={item} />
       ))}
     </div>
   );

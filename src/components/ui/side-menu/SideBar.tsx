@@ -84,7 +84,7 @@ export const SideBar = () => {
               <SideBarLink
                 href="/orders"
                 icon={<IoTicketOutline size={22} />}
-                name="Ordenes"
+                name="Mis Ordenes"
                 onCloseMenu={closeMenu}
               />
               <SideLogout />
@@ -108,14 +108,15 @@ export const SideBar = () => {
                 name="Productos"
               />{" "}
               <SideBarLink
-                href="/"
+                href="/admin/orders"
                 icon={<IoTicketOutline size={22} />}
-                name="Ordenes"
+                name="Ver Ordenes"
               />{" "}
               <SideBarLink
-                href="/"
+                href="/admin/users"
                 icon={<IoPeopleOutline size={22} />}
                 name="Usuarios"
+                onCloseMenu={closeMenu}
               />
             </div>
           </>
