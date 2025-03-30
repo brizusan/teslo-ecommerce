@@ -103,14 +103,16 @@ export const SideBar = () => {
             <div className="my-10 bg-gray-200 h-[1px] " />
             <div>
               <SideBarLink
-                href="/"
+                href="/admin/products"
                 icon={<IoShirtOutline size={22} />}
                 name="Productos"
+                onCloseMenu={closeMenu}
               />{" "}
               <SideBarLink
                 href="/admin/orders"
                 icon={<IoTicketOutline size={22} />}
                 name="Ver Ordenes"
+                onCloseMenu={closeMenu}
               />{" "}
               <SideBarLink
                 href="/admin/users"

@@ -44,7 +44,7 @@ export const Pagination = ({ totalPages, currentPage }: Props) => {
           {currentPage > 1 && (
             <Link
               href={createPageUrl(currentPage - 1)}
-              className=" relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 text-gray-500  focus:shadow-none"
+              className=" relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 text-gray-500  hover:bg-gray-200 focus:shadow-none"
             >
               Previous
             </Link>

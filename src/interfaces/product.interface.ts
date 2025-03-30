@@ -10,6 +10,7 @@ export interface Product {
   title: string;
   //TODO: type: Type;
   gender: Category;
+  categoryId?: string;
 }
 
 export interface CartProduct {
@@ -20,6 +21,11 @@ export interface CartProduct {
   quantity: number;
   size: Size;
   image: string;
+}
+
+export interface Categories {
+  id: string;
+  name: string;
 }
 
 export type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXXL";

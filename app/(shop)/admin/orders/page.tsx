@@ -16,7 +16,6 @@ export const metadata: Metadata = {
 
 export default async function OrdersPage() {
   const orders = await getOrders();
-  console.log(orders);
 
   const isEmpty = orders.length === 0;
 
