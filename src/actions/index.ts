@@ -9,6 +9,7 @@ export * from "./order/get-orders";
 export * from "./order/get-orders-user";
 export * from "./order/place-order";
 export * from "./order/set-transaction.id";
+export * from "./product/create-product-action";
 export * from "./product/get-stock-action";
 export * from "./products/get-products";
 export * from "./users/get-users";

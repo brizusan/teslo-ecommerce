@@ -21,12 +21,7 @@ export const metadata: Metadata = {
 async function getProdyctBySlug(slug: string) {
   const product = await prisma.product.findUnique({
     include: {
-      ProductImage: {
-        select: {
-          url: true,
-          id: true,
-        },
-      },
+      ProductImage: true,
       category: {
         select: {
           id: true,
@@ -38,7 +33,7 @@ async function getProdyctBySlug(slug: string) {
     },
   });
 
-  if (!product) notFound();
+  if (!product && slug != "new") notFound();
 
   return {
     ...product,

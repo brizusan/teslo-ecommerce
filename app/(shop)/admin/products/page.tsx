@@ -39,7 +39,7 @@ export default async function ProductsPage({ searchParams }: Props) {
 
         <div className="flex justify-end my-6">
           <Link
-            href="/admin/products/new"
+            href={`/admin/product/new`}
             className="bg-blue-500 text-white px-8 py-2 rounded-lg font-semibold hover:bg-blue-600 hover:transition-colors"
           >
             Nuevo Producto

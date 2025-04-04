@@ -1,12 +1,14 @@
 "use client";
 
+import { createProductAction } from "@/src/actions";
 import type { Categories, Product } from "@/src/interfaces";
 import { ProductImage } from "@prisma/client";
+import clsx from "clsx";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Product & {
+  product?: Partial<Product> & {
     ProductImage?: ProductImage[];
   };
   categories: Categories[];
@@ -19,11 +21,11 @@ interface FormInputs {
   slug: string;
   description: string;
   price: number;
-  tags: string;
+  tags: string[];
   inStock: number;
   gender: "men" | "women" | "kid" | "unisex";
   categoryId: string;
-  sizes: string;
+  sizes: string[];
 
   // Images
 }
@@ -33,17 +35,42 @@ export const ProductForm = ({ product, categories }: Props) => {
     register,
     handleSubmit,
     formState: { errors, isValid },
-    reset,
+    getValues,
+    setValue,
+    watch,
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product.tags.join(","),
-      sizes: product.sizes.join(","),
+      tags: product?.tags ? product.tags.join(",").split(",") : [],
+      sizes: product?.sizes ?? [],
     },
   });
 
+  watch("sizes");
+
+  const onSizeChange = (size: string): void => {
+    const sizes = new Set(getValues("sizes"));
+    sizes.has(size) ? sizes.delete(size) : sizes.add(size);
+    setValue("sizes", Array.from(sizes));
+  };
   const onSubmit = async (data: FormInputs) => {
-    console.log(data);
+    const formData = new FormData();
+    const { ...productToSave } = data;
+
+    if (product?.id) {
+      formData.append("id", product?.id);
+    }
+    formData.append("title", productToSave.title);
+    formData.append("slug", productToSave.slug);
+    formData.append("description", productToSave.description);
+    formData.append("price", productToSave.price.toString());
+    formData.append("tags", productToSave.tags.join(","));
+    formData.append("inStock", productToSave.inStock.toString());
+    formData.append("gender", productToSave.gender);
+    formData.append("categoryId", productToSave.categoryId);
+    formData.append("sizes", productToSave.sizes.join(","));
+
+    const { ok } = await createProductAction(formData);
   };
 
   return (
@@ -96,6 +123,21 @@ export const ProductForm = ({ product, categories }: Props) => {
               pattern: {
                 value: /^[0-9]+$/,
                 message: "El precio debe ser un número",
+              },
+            })}
+          />
+        </div>
+
+        <div className="flex flex-col mb-2">
+          <span>InSotck</span>
+          <input
+            type="number"
+            className="p-2 border rounded-md bg-gray-200"
+            {...register("inStock", {
+              required: "Stock de productos es obligatorio",
+              pattern: {
+                value: /^[0-9]+$/,
+                message: "El stock debe ser un número",
               },
             })}
           />
@@ -158,7 +200,13 @@ export const ProductForm = ({ product, categories }: Props) => {
               // bg-blue-500 text-white <--- si está seleccionado
               <div
                 key={size}
-                className="flex  items-center justify-center w-10 h-10 mr-2 border rounded-md"
+                onClick={() => onSizeChange(size)}
+                className={clsx(
+                  "flex  items-center justify-center cursor-pointer w-10 h-10 mr-2 border rounded-md transition-all",
+                  {
+                    "bg-blue-500 text-white": getValues("sizes").includes(size),
+                  }
+                )}
               >
                 <span>{size}</span>
               </div>
@@ -176,14 +224,14 @@ export const ProductForm = ({ product, categories }: Props) => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {product.ProductImage?.map((image) => (
+            {product?.ProductImage?.map((image) => (
               <div
                 key={image.id}
                 className=" border border-gray-100 overflow-hidden rounded-md"
               >
                 <Image
                   src={`/products/${image.url}`}
-                  alt={product.title}
+                  alt={product.title ?? ""}
                   width={200}
                   height={200}
                   className="rounded-md "
