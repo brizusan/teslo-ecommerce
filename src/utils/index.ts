@@ -23,3 +23,11 @@ export function isValidPage(value: number) {
 
   return true;
 }
+
+export const urlImageCloud = (url: string) => {
+  const imageCloud = url.includes("res.cloudinary.com")
+    ? url
+    : `/products/${url}`;
+
+  return imageCloud;
+};

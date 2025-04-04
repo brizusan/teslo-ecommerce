@@ -18,6 +18,7 @@ export * from "./products/product-grid/ProductGridEmpty";
 export * from "./paypal/PaypalButton";
 
 // Componente de Product
+export * from "./product/product-image/ProductImage";
 export * from "./product/product-quantity/ProductQuantity";
 export * from "./product/product-stock/ProductStock";
 export * from "./product/size-selector/SizeSelector";

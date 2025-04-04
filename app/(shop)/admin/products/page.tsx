@@ -1,9 +1,8 @@
 import { getProducts } from "@/src/actions";
-import { Pagination, Title } from "@/src/components";
+import { Pagination, ProductImage, Title } from "@/src/components";
 import { formatCurrency } from "@/src/utils";
 import clsx from "clsx";
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
@@ -107,12 +106,12 @@ export default async function ProductsPage({ searchParams }: Props) {
                         href={`/product/${product.slug}`}
                         className="hover:underline"
                       >
-                        <Image
-                          src={`/products/${product.ProductImage[0].url}`}
+                        <ProductImage
+                          src={product.ProductImage[0]?.url}
                           alt={product.title}
                           width={60}
                           height={60}
-                          className="rounded-"
+                          className="rounded-md"
                         />
                       </Link>
                     </td>

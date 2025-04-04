@@ -55,7 +55,6 @@ export default async function HomePage({ searchParams }: Props) {
   if (!isValidPage(pageInt)) redirect("/?page=1");
 
   const isEmpty = products.length === 0;
-
   return (
     <section className="px-10">
       <Title

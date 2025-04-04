@@ -1,15 +1,16 @@
 "use client";
 
 import { createProductAction } from "@/src/actions";
+import { ProductImage } from "@/src/components";
 import type { Categories, Product } from "@/src/interfaces";
-import { ProductImage } from "@prisma/client";
+import type { ProductImage as ProductImageType } from "@prisma/client";
 import clsx from "clsx";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface Props {
   product?: Partial<Product> & {
-    ProductImage?: ProductImage[];
+    ProductImage?: ProductImageType[];
   };
   categories: Categories[];
 }
@@ -26,11 +27,12 @@ interface FormInputs {
   gender: "men" | "women" | "kid" | "unisex";
   categoryId: string;
   sizes: string[];
-
-  // Images
+  images?: FileList;
 }
 
 export const ProductForm = ({ product, categories }: Props) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -41,8 +43,9 @@ export const ProductForm = ({ product, categories }: Props) => {
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product?.tags ? product.tags.join(",").split(",") : [],
+      tags: product?.tags ?? [],
       sizes: product?.sizes ?? [],
+      images: undefined,
     },
   });
 
@@ -53,9 +56,10 @@ export const ProductForm = ({ product, categories }: Props) => {
     sizes.has(size) ? sizes.delete(size) : sizes.add(size);
     setValue("sizes", Array.from(sizes));
   };
+
   const onSubmit = async (data: FormInputs) => {
     const formData = new FormData();
-    const { ...productToSave } = data;
+    const { images, ...productToSave } = data;
 
     if (product?.id) {
       formData.append("id", product?.id);
@@ -64,13 +68,26 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append("slug", productToSave.slug);
     formData.append("description", productToSave.description);
     formData.append("price", productToSave.price.toString());
-    formData.append("tags", productToSave.tags.join(","));
+    formData.append("tags", Array(productToSave.tags).join(","));
     formData.append("inStock", productToSave.inStock.toString());
     formData.append("gender", productToSave.gender);
     formData.append("categoryId", productToSave.categoryId);
-    formData.append("sizes", productToSave.sizes.join(","));
+    formData.append("sizes", productToSave.sizes.join(",").trim());
 
-    const { ok } = await createProductAction(formData);
+    if (images) {
+      for (const image of images) {
+        formData.append("images", image);
+      }
+    }
+
+    const { ok, prodct } = await createProductAction(formData);
+
+    if (!ok) {
+      alert("Error al realizar la operacion");
+      return;
+    }
+
+    router.replace("/admin/products");
   };
 
   return (
@@ -219,7 +236,8 @@ export const ProductForm = ({ product, categories }: Props) => {
               type="file"
               multiple
               className="p-2 border rounded-md bg-gray-200"
-              accept="image/png, image/jpeg"
+              accept="image/avif, image/png, image/jpeg"
+              {...register("images")}
             />
           </div>
 
@@ -229,12 +247,12 @@ export const ProductForm = ({ product, categories }: Props) => {
                 key={image.id}
                 className=" border border-gray-100 overflow-hidden rounded-md"
               >
-                <Image
-                  src={`/products/${image.url}`}
+                <ProductImage
+                  src={image.url}
                   alt={product.title ?? ""}
-                  width={200}
-                  height={200}
-                  className="rounded-md "
+                  width={350}
+                  height={350}
+                  className="rounded-md w-full"
                 />
 
                 <div className="text-center ">

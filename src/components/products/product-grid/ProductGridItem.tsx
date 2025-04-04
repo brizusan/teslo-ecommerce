@@ -1,5 +1,6 @@
 "use client";
 import { Product } from "@/src/interfaces";
+import { urlImageCloud } from "@/src/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -10,11 +11,14 @@ type Props = {
 
 export const ProductGridItem = ({ product }: Props) => {
   const [displayImage, setDisplayImage] = useState(product.images[0]);
+
+  if (displayImage === undefined) return null;
+
   return (
     <div className="rounded-md overflow-hidden fade-in ">
       <Link href={`/product/${product.slug}`}>
         <Image
-          src={`/products/${displayImage}`}
+          src={urlImageCloud(displayImage)}
           width={500}
           height={500}
           className="w-full object-cover rounded-md"

@@ -4,6 +4,7 @@ import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import { urlImageCloud } from "@/src/utils";
 import Image from "next/image";
 import "./slider.css";
 
@@ -27,7 +28,7 @@ export const SliderProductMobile = ({ images, title }: Props) => {
         {images.map((image) => (
           <SwiperSlide key={image}>
             <Image
-              src={`/products/${image}`}
+              src={urlImageCloud(image)}
               alt={`imagen de ${title}`}
               width={600}
               height={450}
