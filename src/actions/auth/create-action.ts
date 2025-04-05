@@ -12,7 +12,7 @@ export async function createUser(data: FormData) {
   });
 
   if (user) {
-    return { error: "El correo ya está registrado" };
+    return { ok: false, error: "El correo ya está registrado" };
   }
 
   try {
@@ -24,7 +24,8 @@ export async function createUser(data: FormData) {
       },
     });
   } catch (error) {
-    return { error: "Error al crear la cuenta" };
+    console.log(error);
+    return { ok: false, error: "Error al crear la cuenta" };
   }
-  return { success: "Cuenta creada correctamente" };
+  return { ok: true, success: "Cuenta creada correctamente" };
 }

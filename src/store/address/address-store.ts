@@ -21,7 +21,7 @@ const initialAdress: Address = {
 
 export const useAdressStore = create<StateStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       address: initialAdress,
       setAdress: (address) => set({ address }),
     }),

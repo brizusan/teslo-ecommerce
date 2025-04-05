@@ -7,22 +7,20 @@ export const ProductStock = ({ slug }: { slug: string }) => {
   const [stock, setStock] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const getResStock = async () => {
-    try {
-      setLoading(true);
-      const { stock } = await getStock(slug);
-      setStock(stock);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    // tomar respuesta de stock
+    const getResStock = async () => {
+      try {
+        setLoading(true);
+        const { stock } = await getStock(slug);
+        setStock(stock);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     getResStock();
-  }, []);
+  }, [slug]);
   return (
     <>
       {loading ? (

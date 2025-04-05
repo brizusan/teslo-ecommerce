@@ -2,10 +2,10 @@
 import { prisma } from "@/src/config/client";
 import { Size } from "@/src/interfaces";
 import { Gender, Product } from "@prisma/client";
-import { v2 as cloudinary } from "cloudinary";
 import { revalidatePath } from "next/cache";
 import z from "zod";
 
+import { v2 as cloudinary } from "cloudinary";
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 const formDataSchema = z.object({

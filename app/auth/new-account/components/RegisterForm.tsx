@@ -46,7 +46,7 @@ export const RegisterForm = () => {
         reset();
       }, 1500);
     }
-  }, [response]);
+  }, [response, reset, router]);
 
   return (
     <>

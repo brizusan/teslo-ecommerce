@@ -25,7 +25,7 @@ export const SideBar = () => {
 
   useEffect(() => {
     update();
-  }, []);
+  }, [update]);
 
   return (
     <>

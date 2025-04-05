@@ -51,7 +51,7 @@ export const AddressForm = ({ countries, userAddress = {} }: Props) => {
 
   useEffect(() => {
     if (address.name) reset(address);
-  }, [address]);
+  }, [address, reset]);
 
   return (
     <form

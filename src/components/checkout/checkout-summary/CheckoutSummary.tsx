@@ -30,6 +30,7 @@ export const CheckoutSummary = () => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Todo : generar los datos de la orden {address , cart}
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { rememberAdress, ...rest } = address;
     const productsInCart = cart.map(({ id, quantity, size }) => ({
       id,

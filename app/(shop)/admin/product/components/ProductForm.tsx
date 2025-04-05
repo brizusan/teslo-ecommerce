@@ -1,6 +1,6 @@
 "use client";
 
-import { createProductAction } from "@/src/actions";
+import { createProductAction, deleteProductImage } from "@/src/actions";
 import { ProductImage } from "@/src/components";
 import type { Categories, Product } from "@/src/interfaces";
 import type { ProductImage as ProductImageType } from "@prisma/client";
@@ -33,26 +33,21 @@ interface FormInputs {
 export const ProductForm = ({ product, categories }: Props) => {
   const router = useRouter();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-    getValues,
-    setValue,
-    watch,
-  } = useForm<FormInputs>({
-    defaultValues: {
-      ...product,
-      tags: product?.tags ?? [],
-      sizes: product?.sizes ?? [],
-      images: undefined,
-    },
-  });
+  const { register, handleSubmit, getValues, setValue, watch } =
+    useForm<FormInputs>({
+      defaultValues: {
+        ...product,
+        tags: product?.tags ?? [],
+        sizes: product?.sizes ?? [],
+        images: undefined,
+      },
+    });
 
   watch("sizes");
 
   const onSizeChange = (size: string): void => {
     const sizes = new Set(getValues("sizes"));
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     sizes.has(size) ? sizes.delete(size) : sizes.add(size);
     setValue("sizes", Array.from(sizes));
   };
@@ -80,7 +75,7 @@ export const ProductForm = ({ product, categories }: Props) => {
       }
     }
 
-    const { ok, prodct } = await createProductAction(formData);
+    const { ok } = await createProductAction(formData);
 
     if (!ok) {
       alert("Error al realizar la operacion");
@@ -204,7 +199,7 @@ export const ProductForm = ({ product, categories }: Props) => {
           </select>
         </div>
 
-        <button className="btn-primary w-full">Guardar</button>
+        <input type="submit" className="btn-primary w-full" value={"Guardar"} />
       </div>
 
       {/* Selector de tallas y fotos */}
@@ -258,7 +253,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                 <div className="text-center ">
                   <button
                     type="button"
-                    onClick={() => console.log(image.id, image.url)}
+                    onClick={() => deleteProductImage(image.id, image.url)}
                     className="w-full bg-red-500 text-white py-2 hover:tracking-widest transition-all cursor-pointer "
                   >
                     Eliminar

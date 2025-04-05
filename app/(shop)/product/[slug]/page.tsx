@@ -7,7 +7,7 @@ import {
 import { prisma } from "@/src/config/client";
 import { titleFont } from "@/src/config/fonts";
 import { formatCurrency } from "@/src/utils";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AddToCart } from "../components/AddToCart";
 
@@ -15,10 +15,7 @@ type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateMetadata(
-  { params }: Props,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
 
   const product = await getProdyctBySlug(slug);

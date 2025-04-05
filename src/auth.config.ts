@@ -34,6 +34,7 @@ export const authConfig = {
       return token;
     },
     async session({ session, token }) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       session.user = token.data as any;
       return session;
     },

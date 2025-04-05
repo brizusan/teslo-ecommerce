@@ -27,7 +27,7 @@ export const ProductImage = ({
       alt={alt}
       width={width}
       height={height}
-      className={`w-20 h-20 object-cover rounded-md ${className}`}
+      className={`object-cover rounded-md ${className}`}
     />
   );
 };

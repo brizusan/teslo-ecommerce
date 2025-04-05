@@ -60,7 +60,7 @@ export interface PurchaseUnitAmount {
   breakdown: Breakdown;
 }
 
-export interface Breakdown {}
+export type Breakdown = Record<string, never>;
 
 export interface Payee {
   email_address: string;
