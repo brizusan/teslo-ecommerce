@@ -23,9 +23,10 @@ export const SideBar = () => {
   const isAuthenticated = !!session?.user;
   const isAdmin = session?.user?.role === "admin";
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     update();
-  }, [update]);
+  }, []);
 
   return (
     <>

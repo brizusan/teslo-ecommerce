@@ -8,6 +8,7 @@ const protectedRoutes = [
 ];
 
 export const authConfig = {
+  trustHost: true,
   pages: {
     signIn: "/auth/login",
     newUser: "/auth/new-account",
