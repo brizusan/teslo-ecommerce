@@ -1,5 +1,6 @@
 import { getOrders } from "@/src/actions";
 import { Title } from "@/src/components";
+import { Order } from "@/src/interfaces";
 import clsx from "clsx";
 import { Metadata } from "next";
 import Link from "next/link";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function OrdersPage() {
-  const orders = await getOrders();
+  const orders = (await getOrders()) as Order[];
 
   const isEmpty = orders.length === 0;
 

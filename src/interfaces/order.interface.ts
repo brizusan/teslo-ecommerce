@@ -1,3 +1,8 @@
+export interface OrderAddress {
+  firstName: string;
+  lastName: string;
+}
+
 export interface Order {
   id: string;
   subTotal: number;
@@ -9,6 +14,8 @@ export interface Order {
   createdAt: Date;
   updatedAt: Date;
   userId: string;
+  transactionId: string | null;
+  OrderAddress: OrderAddress | null;
 }
 
 interface ProductOrderImage {
