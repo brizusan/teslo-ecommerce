@@ -1,16 +1,16 @@
 "use client";
 
 import { createProductAction, deleteProductImage } from "@/src/actions";
-import { ProductImage } from "@/src/components";
+import { ProductImage as ProductImageComponent } from "@/src/components";
 import type { Categories, Product } from "@/src/interfaces";
-import type { ProductImage as ProductImageType } from "@prisma/client";
+import { ProductImage } from "@prisma/client";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 interface Props {
   product?: Partial<Product> & {
-    ProductImage?: ProductImageType[];
+    ProductImage?: ProductImage[];
   };
   categories: Categories[];
 }
@@ -242,7 +242,7 @@ export const ProductForm = ({ product, categories }: Props) => {
                 key={image.id}
                 className=" border border-gray-100 overflow-hidden rounded-md"
               >
-                <ProductImage
+                <ProductImageComponent
                   src={image.url}
                   alt={product.title ?? ""}
                   width={350}
